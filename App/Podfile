@@ -1,0 +1,61 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '14.0'
+
+source 'https://github.com/dzulfaqaraar/CatalogCore-Spec'
+
+use_frameworks!
+
+workspace 'Modularization'
+
+target 'Catalog' do
+  pod 'IGListKit', '~> 4.0.0'
+  pod 'Alamofire'
+  pod 'SDWebImageSwiftUI'
+  pod 'Cleanse'
+  pod 'Core'
+
+  target 'CatalogTests' do
+  end
+end
+
+target 'Common' do
+  project '../Common/Common'
+  pod 'Alamofire'
+  pod 'SDWebImageSwiftUI'
+
+  target 'CommonTests' do
+  end
+end
+
+target 'Profile' do
+  project '../Profile/Profile'
+  pod 'Alamofire'
+  pod 'SDWebImageSwiftUI'
+  pod 'Cleanse'
+  pod 'Core'
+
+  target 'ProfileTests' do
+  end
+end
+
+target 'Detail' do
+  project '../Detail/Detail'
+  pod 'Alamofire'
+  pod 'SDWebImageSwiftUI'
+  pod 'Cleanse'
+  pod 'Core'
+
+  target 'DetailTests' do
+  end
+end
+
+target 'Search' do
+  project '../Search/Search'
+  pod 'Alamofire'
+  pod 'SDWebImageSwiftUI'
+  pod 'Cleanse'
+  pod 'Core'
+
+  target 'SearchTests' do
+  end
+end

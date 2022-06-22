@@ -1,0 +1,56 @@
+{
+  "configurations" : [
+    {
+      "id" : "382FD751-D6CE-43A9-82CC-E665A85022E4",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Catalog.xcodeproj",
+      "identifier" : "B0AE78252842046D0079B4B7",
+      "name" : "Catalog"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Catalog.xcodeproj",
+        "identifier" : "B0A39C422858C9B7004DB47D",
+        "name" : "CatalogTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Common\/Common.xcodeproj",
+        "identifier" : "B07D6976285F44A500203494",
+        "name" : "CommonTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Detail\/Detail.xcodeproj",
+        "identifier" : "B07D691D285F1DE200203494",
+        "name" : "DetailTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Profile\/Profile.xcodeproj",
+        "identifier" : "B07D695A285F359D00203494",
+        "name" : "ProfileTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..\/Search\/Search.xcodeproj",
+        "identifier" : "B07D693E285F31DA00203494",
+        "name" : "SearchTests"
+      }
+    }
+  ],
+  "version" : 1
+}
