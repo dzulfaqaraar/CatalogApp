@@ -2,6 +2,7 @@
 platform :ios, '14.0'
 
 source 'https://github.com/dzulfaqaraar/CatalogCore-Spec'
+source 'https://cdn.cocoapods.org/'
 
 use_frameworks!
 
@@ -12,7 +13,7 @@ target 'Catalog' do
   pod 'Alamofire'
   pod 'SDWebImageSwiftUI'
   pod 'Cleanse'
-  pod 'Core'
+  pod 'Core', '~> 1.0.0'
 
   target 'CatalogTests' do
   end
@@ -22,6 +23,7 @@ target 'Common' do
   project '../Common/Common'
   pod 'Alamofire'
   pod 'SDWebImageSwiftUI'
+  pod 'Core', '~> 1.0.0'
 
   target 'CommonTests' do
   end
@@ -32,7 +34,7 @@ target 'Profile' do
   pod 'Alamofire'
   pod 'SDWebImageSwiftUI'
   pod 'Cleanse'
-  pod 'Core'
+  pod 'Core', '~> 1.0.0'
 
   target 'ProfileTests' do
   end
@@ -43,7 +45,7 @@ target 'Detail' do
   pod 'Alamofire'
   pod 'SDWebImageSwiftUI'
   pod 'Cleanse'
-  pod 'Core'
+  pod 'Core', '~> 1.0.0'
 
   target 'DetailTests' do
   end
@@ -54,8 +56,16 @@ target 'Search' do
   pod 'Alamofire'
   pod 'SDWebImageSwiftUI'
   pod 'Cleanse'
-  pod 'Core'
+  pod 'Core', '~> 1.0.0'
 
   target 'SearchTests' do
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+    end
   end
 end
