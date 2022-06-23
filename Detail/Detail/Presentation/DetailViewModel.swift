@@ -11,7 +11,15 @@ import Cleanse
 import Common
 import Core
 
-public class DetailViewModel: ObservableObject {
+public class DetailViewModel<GetUseCase: UseCase, InsertUseCase: UseCase, DeleteUseCase: UseCase, LoadUseCase: UseCase>: ObservableObject
+where GetUseCase.Request == Int,
+      GetUseCase.Response == [FavoriteModel],
+      InsertUseCase.Request == FavoriteModel,
+      InsertUseCase.Response == Bool,
+      DeleteUseCase.Request == Int,
+      DeleteUseCase.Response == Bool,
+      LoadUseCase.Request == Int,
+      LoadUseCase.Response == GameModel? {
 
   @Published var isError: Bool = false
   @Published var isLoading: Bool = true
@@ -25,16 +33,16 @@ public class DetailViewModel: ObservableObject {
 
   private var cancellables: Set<AnyCancellable> = []
 
-  private let getUseCase: Provider<Interactor<Int, [FavoriteModel], GetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>>
-  private let insertUseCase: Provider<Interactor<FavoriteModel, Bool, InsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>>
-  private let deleteUseCase: Provider<Interactor<Int, Bool, DeleteFavoriteDetailRepository<DetailLocaleDataSource>>>
-  private let loadUseCase: Provider<Interactor<Int, GameModel?, LoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>>>
+  private let getUseCase: Provider<GetUseCase>
+  private let insertUseCase: Provider<InsertUseCase>
+  private let deleteUseCase: Provider<DeleteUseCase>
+  private let loadUseCase: Provider<LoadUseCase>
 
   public init(
-    getUseCase: Provider<Interactor<Int, [FavoriteModel], GetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>>,
-    insertUseCase: Provider<Interactor<FavoriteModel, Bool, InsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>>,
-    deleteUseCase: Provider<Interactor<Int, Bool, DeleteFavoriteDetailRepository<DetailLocaleDataSource>>>,
-    loadUseCase: Provider<Interactor<Int, GameModel?, LoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>>>
+    getUseCase: Provider<GetUseCase>,
+    insertUseCase: Provider<InsertUseCase>,
+    deleteUseCase: Provider<DeleteUseCase>,
+    loadUseCase: Provider<LoadUseCase>
   ) {
     self.getUseCase = getUseCase
     self.insertUseCase = insertUseCase

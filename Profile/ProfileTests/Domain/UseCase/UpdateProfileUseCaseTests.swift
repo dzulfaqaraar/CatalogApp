@@ -9,25 +9,28 @@ import XCTest
 import Combine
 import Common
 import Core
+import Cleanse
 
 @testable import Profile
 class UpdateProfileUseCaseTests: XCTestCase {
 
   private var databaseError: DatabaseError?
 
+  private func mockProfileModel() -> ProfileModel {
+    let image = UIImage(named: "me", in: profileBundle, with: nil)!
+    let imageData = image.jpegData(compressionQuality: 1)
+    return ProfileModel(image: imageData!, name: "Dzulfaqar", website: "www.dzulfaqar.com")
+  }
+
   func testUpdateProfileSuccess() throws {
     // ARRANGE
     let repository = MockUpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>()
     repository.responseValue = true
 
-    let useCase = Interactor(repository: repository)
+    let useCase = UpdateProfileUseCase<MockUpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>(repository: Provider(value: repository))
 
     // ACT
-    let image = UIImage(named: "me", in: profileBundle, with: nil)!
-    let imageData = image.jpegData(compressionQuality: 1)
-    let request = ProfileModel(image: imageData!, name: "Dzulfaqar", website: "www.dzulfaqar.com")
-
-    let resultPublisher = useCase.execute(request: request)
+    let resultPublisher = useCase.execute(request: mockProfileModel())
     var response: Bool?
     do {
       response = try awaitPublisher(resultPublisher).get()
@@ -46,14 +49,10 @@ class UpdateProfileUseCaseTests: XCTestCase {
     repository.isSuccess = false
     repository.errorValue = DatabaseError.requestFailed
 
-    let useCase = Interactor(repository: repository)
+    let useCase = UpdateProfileUseCase<MockUpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>(repository: Provider(value: repository))
 
     // ACT
-    let image = UIImage(named: "me", in: profileBundle, with: nil)!
-    let imageData = image.jpegData(compressionQuality: 1)
-    let request = ProfileModel(image: imageData!, name: "Dzulfaqar", website: "www.dzulfaqar.com")
-
-    let resultPublisher = useCase.execute(request: request)
+    let resultPublisher = useCase.execute(request: mockProfileModel())
     do {
       _ = try awaitPublisher(resultPublisher).get()
     } catch {

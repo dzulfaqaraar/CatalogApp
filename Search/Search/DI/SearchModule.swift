@@ -45,7 +45,7 @@ public struct SearchUseCaseModule: Module {
   public static func configure(binder: Binder<Singleton>) {
     binder.include(module: SearchRepositoryModule.self)
 
-    binder.bind(SearchUseCase.self)
+    binder.bind(SearchUseCase<SearchRepository<SearchRemoteDataSource, GameTransformer>>.self)
       .sharedInScope()
       .to(factory: SearchUseCase.init)
     binder.bind(Interactor<[String: Any?], [GameModel], SearchRepository<SearchRemoteDataSource, GameTransformer>>.self)

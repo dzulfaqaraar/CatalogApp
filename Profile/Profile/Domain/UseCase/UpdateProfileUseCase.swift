@@ -11,13 +11,16 @@ import Common
 import Combine
 import Cleanse
 
-public class UpdateProfileUseCase: UseCase {
+public class UpdateProfileUseCase<R: Repository>: UseCase
+where R.Request == ProfileModel,
+      R.Response == Bool {
+
   public typealias Request = ProfileModel
   public typealias Response = Bool
 
-  private let repository: Provider<UpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>
+  private let repository: Provider<R>
 
-  public init(repository: Provider<UpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>) {
+  public init(repository: Provider<R>) {
     self.repository = repository
   }
 

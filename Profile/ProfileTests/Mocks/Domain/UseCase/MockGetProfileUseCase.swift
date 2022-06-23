@@ -1,23 +1,19 @@
 //
-//  MockGetProfileRepository.swift
+//  MockGetProfileUseCase.swift
 //  ProfileTests
 //
-//  Created by Dzulfaqar on 20/06/22.
+//  Created by Dzulfaqar on 23/06/22.
 //
 
-import Foundation
-import Combine
-import Common
 import Core
+import Combine
+import Profile
 
-@testable import Profile
-public class MockGetProfileRepository<Locale: LocaleDataSource, Transformer: Mapper>: Repository
-where Locale.Response == ProfileEntity,
-      Transformer.Response == Any,
-      Transformer.Entity == ProfileEntity,
-      Transformer.Domain == ProfileModel {
+public class MockGetProfileUseCase<R: Repository>: UseCase
+where R.Request == Int,
+      R.Response == ProfileModel {
 
-  public typealias Request = Any
+  public typealias Request = Int
   public typealias Response = ProfileModel
 
   var isSuccess = true
@@ -29,7 +25,7 @@ where Locale.Response == ProfileEntity,
     return functionWasCalled
   }
 
-  public func execute(request: Any?) -> AnyPublisher<ProfileModel, Error> {
+  public func execute(request: Int?) -> AnyPublisher<ProfileModel, Error> {
     functionWasCalled = true
     return Future<ProfileModel, Error> { completion in
       if self.isSuccess {
@@ -44,3 +40,4 @@ where Locale.Response == ProfileEntity,
     }.eraseToAnyPublisher()
   }
 }
+

@@ -9,6 +9,7 @@ import Foundation
 import Core
 import Combine
 import Cleanse
+import Common
 
 public struct DeleteFavoriteDetailRepository<Locale: LocaleDataSource>: Repository
 where Locale.Request == Int {
@@ -23,6 +24,12 @@ where Locale.Request == Int {
   }
 
   public func execute(request: Int?) -> AnyPublisher<Bool, Error> {
-    locale.get().delete(id: request ?? -1)
+    if let request = request {
+      return locale.get().delete(id: request)
+    }
+
+    return Future<Bool, Error> { completion in
+      completion(.failure(DatabaseError.requestFailed))
+    }.eraseToAnyPublisher()
   }
 }

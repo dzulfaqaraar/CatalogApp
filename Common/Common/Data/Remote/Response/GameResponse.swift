@@ -13,6 +13,10 @@ public struct GameResponse: Codable {
   enum CodingKeys: String, CodingKey {
     case results
   }
+
+  public init(results: [GameResultResponse]?) {
+    self.results = results
+  }
 }
 
 public struct GameResultResponse: Codable {

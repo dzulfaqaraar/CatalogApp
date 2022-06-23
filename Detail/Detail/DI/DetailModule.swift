@@ -49,19 +49,19 @@ struct DetailRepositoryModule: Module {
 
     binder.bind(GetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>.self)
       .sharedInScope()
-      .to(factory: GetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>.init)
+      .to(factory: GetFavoriteDetailRepository.init)
 
     binder.bind(InsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>.self)
       .sharedInScope()
-      .to(factory: InsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>.init)
+      .to(factory: InsertFavoriteDetailRepository.init)
 
     binder.bind(DeleteFavoriteDetailRepository<DetailLocaleDataSource>.self)
       .sharedInScope()
-      .to(factory: DeleteFavoriteDetailRepository<DetailLocaleDataSource>.init)
+      .to(factory: DeleteFavoriteDetailRepository.init)
 
     binder.bind(LoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>.self)
       .sharedInScope()
-      .to(factory: LoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>.init)
+      .to(factory: LoadDataDetailRepository.init)
   }
 }
 
@@ -69,28 +69,28 @@ struct DetailUseCaseModule: Module {
   static func configure(binder: Binder<Singleton>) {
     binder.include(module: DetailRepositoryModule.self)
 
-    binder.bind(GetFavoriteDetailUseCase.self)
+    binder.bind(GetFavoriteDetailUseCase<GetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>.self)
       .sharedInScope()
       .to(factory: GetFavoriteDetailUseCase.init)
     binder.bind(Interactor<Int, [FavoriteModel], GetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>.self)
       .sharedInScope()
       .to(factory: Interactor.init)
 
-    binder.bind(InsertFavoriteDetailUseCase.self)
+    binder.bind(InsertFavoriteDetailUseCase<InsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>.self)
       .sharedInScope()
       .to(factory: InsertFavoriteDetailUseCase.init)
     binder.bind(Interactor<FavoriteModel, Bool, InsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>.self)
       .sharedInScope()
       .to(factory: Interactor.init)
 
-    binder.bind(DeleteFavoriteDetailUseCase.self)
+    binder.bind(DeleteFavoriteDetailUseCase<DeleteFavoriteDetailRepository<DetailLocaleDataSource>>.self)
       .sharedInScope()
       .to(factory: DeleteFavoriteDetailUseCase.init)
     binder.bind(Interactor<Int, Bool, DeleteFavoriteDetailRepository<DetailLocaleDataSource>>.self)
       .sharedInScope()
       .to(factory: Interactor.init)
 
-    binder.bind(LoadDataDetailUseCase.self)
+    binder.bind(LoadDataDetailUseCase<LoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>>.self)
       .sharedInScope()
       .to(factory: LoadDataDetailUseCase.init)
     binder.bind(Interactor<Int, GameModel?, LoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>>.self)

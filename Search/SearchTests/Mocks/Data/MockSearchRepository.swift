@@ -5,12 +5,11 @@
 //  Created by Dzulfaqar on 19/06/22.
 //
 
-import Foundation
 import Combine
 import Common
 import Core
+import Search
 
-@testable import Search
 public class MockSearchRepository<Remote: RemoteDataSource, Transformer: Mapper>: Repository
 where Remote.Request == [String: Any?],
       Remote.Response == GameResponse?,

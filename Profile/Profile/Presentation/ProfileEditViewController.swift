@@ -10,10 +10,12 @@ import Combine
 import Common
 
 class ProfileEditViewController: UIViewController {
+  typealias GetType = GetProfileUseCase<GetProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>
+  typealias UpdateType = UpdateProfileUseCase<UpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>
 
-  private var viewModel: ProfileViewModel
+  private var viewModel: ProfileViewModel<GetType, UpdateType>
 
-  init(viewModel: ProfileViewModel) {
+  init(viewModel: ProfileViewModel<GetType, UpdateType>) {
     self.viewModel = viewModel
     super.init(
       nibName: String(describing: ProfileEditViewController.self),

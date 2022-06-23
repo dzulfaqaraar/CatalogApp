@@ -9,18 +9,19 @@ import XCTest
 import Combine
 import Common
 import Core
+import Cleanse
 
 @testable import Detail
 class InsertFavoriteDetailUseCaseTests: XCTestCase {
 
   private var databaseError: DatabaseError?
 
-  func testInsertFavoriteSuccess() throws {
+  func testInsertFavoriteDetailUseCaseSuccess() throws {
     // ARRANGE
     let repository = MockInsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>()
     repository.responseValue = true
 
-    let useCase = Interactor(repository: repository)
+    let useCase = InsertFavoriteDetailUseCase<MockInsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>(repository: Provider(value: repository))
 
     // ACT
     let mapper = FavoriteTransformer()
@@ -39,13 +40,13 @@ class InsertFavoriteDetailUseCaseTests: XCTestCase {
     XCTAssertEqual(true, response)
   }
 
-  func testInsertFavoriteFailure() throws {
+  func testInsertFavoriteDetailUseCaseFailure() throws {
     // ARRANGE
     let repository = MockInsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>()
     repository.isSuccess = false
     repository.errorValue = DatabaseError.requestFailed
 
-    let useCase = Interactor(repository: repository)
+    let useCase = InsertFavoriteDetailUseCase<MockInsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>(repository: Provider(value: repository))
 
     // ACT
     let mapper = FavoriteTransformer()

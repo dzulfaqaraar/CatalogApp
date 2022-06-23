@@ -8,11 +8,17 @@
 import Foundation
 import Cleanse
 import Detail
+import Common
 
 struct DetailComponent: RootComponent {
-  typealias Root = DetailViewModel
+  typealias GetType = GetFavoriteDetailUseCase<GetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>
+  typealias InsertType = InsertFavoriteDetailUseCase<InsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>
+  typealias DeleteType = DeleteFavoriteDetailUseCase<DeleteFavoriteDetailRepository<DetailLocaleDataSource>>
+  typealias LoadType = LoadDataDetailUseCase<LoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>>
 
-  static func configureRoot(binder bind: ReceiptBinder<DetailViewModel>) -> BindingReceipt<DetailViewModel> {
+  typealias Root = DetailViewModel<GetType, InsertType, DeleteType, LoadType>
+
+  static func configureRoot(binder bind: ReceiptBinder<Root>) -> BindingReceipt<Root> {
     return bind.to(factory: DetailViewModel.init)
   }
 

@@ -1,24 +1,21 @@
 //
-//  MockUpdateProfileRepository.swift
-//  ProfileTests
+//  MockInsertFavoriteDetailUseCase.swift
+//  DetailTests
 //
-//  Created by Dzulfaqar on 20/06/22.
+//  Created by Dzulfaqar on 23/06/22.
 //
 
-import Foundation
 import Combine
 import Common
 import Core
+import Detail
 
-@testable import Profile
-class MockUpdateProfileRepository<Locale: LocaleDataSource, Transformer: Mapper>: Repository
-where Locale.Response == ProfileEntity,
-      Transformer.Response == Any,
-      Transformer.Entity == ProfileEntity,
-      Transformer.Domain == ProfileModel {
-  
-  typealias Request = ProfileModel
-  typealias Response = Bool
+public class MockInsertFavoriteDetailUseCase<R: Repository>: UseCase
+where R.Request == FavoriteModel,
+      R.Response == Bool {
+
+  public typealias Request = FavoriteModel
+  public typealias Response = Bool
 
   var isSuccess = true
   var responseValue: Bool?
@@ -29,7 +26,7 @@ where Locale.Response == ProfileEntity,
     return functionWasCalled
   }
 
-  func execute(request: ProfileModel?) -> AnyPublisher<Bool, Error> {
+  public func execute(request: FavoriteModel?) -> AnyPublisher<Bool, Error> {
     functionWasCalled = true
     return Future<Bool, Error> { completion in
       if self.isSuccess {

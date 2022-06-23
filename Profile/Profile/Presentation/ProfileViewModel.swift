@@ -10,7 +10,11 @@ import Combine
 import Cleanse
 import Core
 
-public class ProfileViewModel {
+public class ProfileViewModel<GetUseCase: UseCase, UpdateUseCase: UseCase>
+where GetUseCase.Request == Int,
+      GetUseCase.Response == ProfileModel,
+      UpdateUseCase.Request == ProfileModel,
+      UpdateUseCase.Response == Bool {
 
   private var cancellables: Set<AnyCancellable> = []
 
@@ -18,12 +22,12 @@ public class ProfileViewModel {
   var isShowingData = CurrentValueSubject<Bool, Never>(false)
   var profileUpdated = CurrentValueSubject<Bool, Never>(false)
 
-  private let getUseCase: Provider<Interactor<Int, ProfileModel, GetProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>>
-  private let updateUseCase: Provider<Interactor<ProfileModel, Bool, UpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>>
+  private let getUseCase: Provider<GetUseCase>
+  private let updateUseCase: Provider<UpdateUseCase>
 
   public init(
-    getUseCase: Provider<Interactor<Int, ProfileModel, GetProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>>,
-    updateUseCase: Provider<Interactor<ProfileModel, Bool, UpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>>
+    getUseCase: Provider<GetUseCase>,
+    updateUseCase: Provider<UpdateUseCase>
   ) {
     self.getUseCase = getUseCase
     self.updateUseCase = updateUseCase

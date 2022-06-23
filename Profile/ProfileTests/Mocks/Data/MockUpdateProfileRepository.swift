@@ -1,24 +1,23 @@
 //
-//  MockInsertFavoriteDetailRepository.swift
-//  DetailTests
+//  MockUpdateProfileRepository.swift
+//  ProfileTests
 //
-//  Created by Dzulfaqar on 21/06/22.
+//  Created by Dzulfaqar on 20/06/22.
 //
 
-import Foundation
 import Combine
 import Common
 import Core
+import Profile
 
-@testable import Profile
-public class MockInsertFavoriteDetailRepository<Locale: LocaleDataSource, Transformer: Mapper>: Repository
-where Locale.Response == FavoriteEntity,
+class MockUpdateProfileRepository<Locale: LocaleDataSource, Transformer: Mapper>: Repository
+where Locale.Response == ProfileEntity,
       Transformer.Response == Any,
-      Transformer.Entity == [FavoriteEntity],
-      Transformer.Domain == [FavoriteModel] {
-
-  public typealias Request = FavoriteModel
-  public typealias Response = Bool
+      Transformer.Entity == ProfileEntity,
+      Transformer.Domain == ProfileModel {
+  
+  typealias Request = ProfileModel
+  typealias Response = Bool
 
   var isSuccess = true
   var responseValue: Bool?
@@ -29,7 +28,7 @@ where Locale.Response == FavoriteEntity,
     return functionWasCalled
   }
 
-  public func execute(request: FavoriteModel?) -> AnyPublisher<Bool, Error> {
+  func execute(request: ProfileModel?) -> AnyPublisher<Bool, Error> {
     functionWasCalled = true
     return Future<Bool, Error> { completion in
       if self.isSuccess {

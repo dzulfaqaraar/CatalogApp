@@ -8,10 +8,12 @@
 import UIKit
 
 public class ProfileViewController: UIViewController {
+  public typealias GetType = GetProfileUseCase<GetProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>
+  public typealias UpdateType = UpdateProfileUseCase<UpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>
 
-  private var viewModel: ProfileViewModel
+  private var viewModel: ProfileViewModel<GetType, UpdateType>
 
-  public init(viewModel: ProfileViewModel) {
+  public init(viewModel: ProfileViewModel<GetType, UpdateType>) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }

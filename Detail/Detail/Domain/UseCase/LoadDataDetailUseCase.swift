@@ -11,13 +11,16 @@ import Common
 import Combine
 import Cleanse
 
-public class LoadDataDetailUseCase: UseCase {
+public class LoadDataDetailUseCase<R: Repository>: UseCase
+where R.Request == Int,
+      R.Response == GameModel? {
+
   public typealias Request = Int
   public typealias Response = GameModel?
 
-  private let repository: Provider<LoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>>
+  private let repository: Provider<R>
 
-  public init(repository: Provider<LoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>>) {
+  public init(repository: Provider<R>) {
     self.repository = repository
   }
 
@@ -25,4 +28,3 @@ public class LoadDataDetailUseCase: UseCase {
     repository.get().execute(request: request)
   }
 }
-

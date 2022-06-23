@@ -32,7 +32,13 @@ where Locale.Response == FavoriteEntity,
   }
 
   public func execute(request: FavoriteModel?) -> AnyPublisher<Bool, Error> {
-    let dataMapped = mapper.get().transformDomainToEntity(domain: [request ?? FavoriteModel()])
-    return locale.get().add(data: dataMapped)
+    if let request = request {
+      let dataMapped = mapper.get().transformDomainToEntity(domain: [request])
+      return locale.get().add(data: dataMapped)
+    }
+    
+    return Future<Bool, Error> { completion in
+      completion(.failure(DatabaseError.requestFailed))
+    }.eraseToAnyPublisher()
   }
 }

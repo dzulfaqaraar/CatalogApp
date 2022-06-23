@@ -9,18 +9,19 @@ import XCTest
 import Combine
 import Common
 import Core
+import Cleanse
 
 @testable import Detail
 class DeleteFavoriteDetailUseCaseTests: XCTestCase {
 
   private var databaseError: DatabaseError?
 
-  func testDeleteFavoriteSuccess() throws {
+  func testDeleteFavoriteDetailUseCaseSuccess() throws {
     // ARRANGE
     let repository = MockDeleteFavoriteDetailRepository<DetailLocaleDataSource>()
     repository.responseValue = true
 
-    let useCase = Interactor(repository: repository)
+    let useCase = DeleteFavoriteDetailUseCase<MockDeleteFavoriteDetailRepository<DetailLocaleDataSource>>(repository: Provider(value: repository))
 
     // ACT
     let resultPublisher = useCase.execute(request: 1)
@@ -37,13 +38,13 @@ class DeleteFavoriteDetailUseCaseTests: XCTestCase {
     XCTAssertEqual(true, response)
   }
 
-  func testDeleteFavoriteFailure() throws {
+  func testDeleteFavoriteDetailUseCaseFailure() throws {
     // ARRANGE
     let repository = MockDeleteFavoriteDetailRepository<DetailLocaleDataSource>()
     repository.isSuccess = false
     repository.errorValue = DatabaseError.requestFailed
 
-    let useCase = Interactor(repository: repository)
+    let useCase = DeleteFavoriteDetailUseCase<MockDeleteFavoriteDetailRepository<DetailLocaleDataSource>>(repository: Provider(value: repository))
 
     // ACT
     let resultPublisher = useCase.execute(request: 1)

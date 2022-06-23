@@ -10,13 +10,16 @@ import Core
 import Combine
 import Cleanse
 
-public class DeleteFavoriteDetailUseCase: UseCase {
+public class DeleteFavoriteDetailUseCase<R: Repository>: UseCase
+where R.Request == Int,
+      R.Response == Bool {
+
   public typealias Request = Int
   public typealias Response = Bool
 
-  private let repository: Provider<DeleteFavoriteDetailRepository<DetailLocaleDataSource>>
+  private let repository: Provider<R>
 
-  public init(repository: Provider<DeleteFavoriteDetailRepository<DetailLocaleDataSource>>) {
+  public init(repository: Provider<R>) {
     self.repository = repository
   }
 

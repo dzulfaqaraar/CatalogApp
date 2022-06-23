@@ -66,6 +66,7 @@ public struct DummyData {
   ]
 
   public static let dataGameResultResponse: GameResultResponse = listGameResultResponse.first!
+  public static let dataGameResponse: GameResponse = GameResponse(results: [dataGameResultResponse])
 
   // MARK: - Data Locale
 
@@ -91,4 +92,10 @@ public struct DummyData {
   ]
 
   public static let dataFavoriteModel = listFavoriteModel.first!
+
+  public static let listGameModel: [GameModel] = [
+    GameModel(id: 1, rating: 4.48, name: "Grand Theft Auto V", image: "https://media.rawg.io/media/games/456/456dea5e1c7e3cd07060c14e96612001.jpg", released: "2013-09-17", descriptionRaw: "", developersName: "Developer", publishersName: "Publisher", genres: "Action")
+  ]
+
+  public static let dataGameModel = listGameModel.first!
 }

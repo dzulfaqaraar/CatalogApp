@@ -1,21 +1,18 @@
 //
-//  MockGetFavoriteDetailRepository.swift
+//  MockGetFavoriteDetailUseCase.swift
 //  DetailTests
 //
-//  Created by Dzulfaqar on 21/06/22.
+//  Created by Dzulfaqar on 23/06/22.
 //
 
-import Foundation
 import Combine
 import Common
 import Core
+import Detail
 
-@testable import Profile
-public class MockGetFavoriteDetailRepository<Locale: LocaleDataSource, Transformer: Mapper>: Repository
-where Locale.Response == FavoriteEntity,
-      Transformer.Response == Any,
-      Transformer.Entity == [FavoriteEntity],
-      Transformer.Domain == [FavoriteModel] {
+public class MockGetFavoriteDetailUseCase<R: Repository>: UseCase
+where R.Request == Int,
+      R.Response == [FavoriteModel] {
 
   public typealias Request = Int
   public typealias Response = [FavoriteModel]

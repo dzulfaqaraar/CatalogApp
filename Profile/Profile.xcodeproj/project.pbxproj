@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		5DFA403AAA5D741120A4CD47 /* Pods_Profile_ProfileTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9D5C55DD87E6721F56A544A /* Pods_Profile_ProfileTests.framework */; };
 		8A3A1FE19D616CDF5934A872 /* Pods_Profile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDF0B73DACD8B8947E3BB07C /* Pods_Profile.framework */; };
+		B06C76F928642D1F0020E681 /* GetProfileRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06C76F828642D1F0020E681 /* GetProfileRepositoryTests.swift */; };
+		B06C76FB28642D2B0020E681 /* UpdateProfileRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06C76FA28642D2B0020E681 /* UpdateProfileRepositoryTests.swift */; };
+		B06C770028642E330020E681 /* MockProfileLocaleDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06C76FF28642E330020E681 /* MockProfileLocaleDataSource.swift */; };
+		B06C770428642F920020E681 /* MockProfileTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06C770328642F920020E681 /* MockProfileTransformer.swift */; };
+		B06C7707286441FE0020E681 /* MockGetProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06C7706286441FE0020E681 /* MockGetProfileUseCase.swift */; };
+		B06C7709286442080020E681 /* MockUpdateProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06C7708286442080020E681 /* MockUpdateProfileUseCase.swift */; };
 		B06E60FD285FE1E8002DA8FF /* UpdateProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06E60FC285FE1E8002DA8FF /* UpdateProfileUseCase.swift */; };
 		B06E60FF285FE58E002DA8FF /* ProfileMemory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06E60FE285FE58E002DA8FF /* ProfileMemory.swift */; };
 		B06E6101285FED00002DA8FF /* MockGetProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B06E6100285FED00002DA8FF /* MockGetProfileRepository.swift */; };
@@ -52,6 +58,12 @@
 		4E289560D28036B3F3AAD544 /* Pods-Profile-ProfileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile-ProfileTests.release.xcconfig"; path = "Target Support Files/Pods-Profile-ProfileTests/Pods-Profile-ProfileTests.release.xcconfig"; sourceTree = "<group>"; };
 		68DEB5D5CD715E58CF782A47 /* Pods-Profile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile.debug.xcconfig"; path = "Target Support Files/Pods-Profile/Pods-Profile.debug.xcconfig"; sourceTree = "<group>"; };
 		7660BFDAEEE18064B3B33979 /* Pods-Profile-ProfileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Profile-ProfileTests.debug.xcconfig"; path = "Target Support Files/Pods-Profile-ProfileTests/Pods-Profile-ProfileTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B06C76F828642D1F0020E681 /* GetProfileRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetProfileRepositoryTests.swift; sourceTree = "<group>"; };
+		B06C76FA28642D2B0020E681 /* UpdateProfileRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileRepositoryTests.swift; sourceTree = "<group>"; };
+		B06C76FF28642E330020E681 /* MockProfileLocaleDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockProfileLocaleDataSource.swift; sourceTree = "<group>"; };
+		B06C770328642F920020E681 /* MockProfileTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockProfileTransformer.swift; sourceTree = "<group>"; };
+		B06C7706286441FE0020E681 /* MockGetProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGetProfileUseCase.swift; sourceTree = "<group>"; };
+		B06C7708286442080020E681 /* MockUpdateProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUpdateProfileUseCase.swift; sourceTree = "<group>"; };
 		B06E60FC285FE1E8002DA8FF /* UpdateProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileUseCase.swift; sourceTree = "<group>"; };
 		B06E60FE285FE58E002DA8FF /* ProfileMemory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMemory.swift; sourceTree = "<group>"; };
 		B06E6100285FED00002DA8FF /* MockGetProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGetProfileRepository.swift; sourceTree = "<group>"; };
@@ -120,11 +132,66 @@
 			path = ../App/Pods;
 			sourceTree = "<group>";
 		};
+		B06C76F328642C650020E681 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				B06C76F728642CBC0020E681 /* Mapper */,
+				B06C76F428642C920020E681 /* Data */,
+				B06C76F528642C960020E681 /* Domain */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
+		B06C76F428642C920020E681 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				B06C76FE28642E2A0020E681 /* Locale */,
+				B06E6100285FED00002DA8FF /* MockGetProfileRepository.swift */,
+				B06E6102285FEE45002DA8FF /* MockUpdateProfileRepository.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		B06C76F528642C960020E681 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				B06C7705286441E80020E681 /* UseCase */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		B06C76F728642CBC0020E681 /* Mapper */ = {
+			isa = PBXGroup;
+			children = (
+				B06C770328642F920020E681 /* MockProfileTransformer.swift */,
+			);
+			path = Mapper;
+			sourceTree = "<group>";
+		};
+		B06C76FE28642E2A0020E681 /* Locale */ = {
+			isa = PBXGroup;
+			children = (
+				B06C76FF28642E330020E681 /* MockProfileLocaleDataSource.swift */,
+			);
+			path = Locale;
+			sourceTree = "<group>";
+		};
+		B06C7705286441E80020E681 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				B06C7706286441FE0020E681 /* MockGetProfileUseCase.swift */,
+				B06C7708286442080020E681 /* MockUpdateProfileUseCase.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
 		B07D695C285F359D00203494 /* ProfileTests */ = {
 			isa = PBXGroup;
 			children = (
+				B0BC7F9C2861F9E1005CA0E4 /* Mapper */,
 				B07D696A285F364D00203494 /* Data */,
 				B07D6966285F35E200203494 /* Domain */,
+				B06C76F328642C650020E681 /* Mocks */,
 				B07D6965285F35DE00203494 /* Utils */,
 			);
 			path = ProfileTests;
@@ -133,7 +200,6 @@
 		B07D6965285F35DE00203494 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				B0BC7F9C2861F9E1005CA0E4 /* Mapper */,
 				B07D696D285F370200203494 /* XCTestCase+Ext.swift */,
 			);
 			path = Utils;
@@ -159,8 +225,8 @@
 		B07D696A285F364D00203494 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				B06E6100285FED00002DA8FF /* MockGetProfileRepository.swift */,
-				B06E6102285FEE45002DA8FF /* MockUpdateProfileRepository.swift */,
+				B06C76F828642D1F0020E681 /* GetProfileRepositoryTests.swift */,
+				B06C76FA28642D2B0020E681 /* UpdateProfileRepositoryTests.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -493,9 +559,15 @@
 			files = (
 				B06E6101285FED00002DA8FF /* MockGetProfileRepository.swift in Sources */,
 				B0B1969B28614730009E9025 /* ProfileTransformerTests.swift in Sources */,
+				B06C7707286441FE0020E681 /* MockGetProfileUseCase.swift in Sources */,
+				B06C770028642E330020E681 /* MockProfileLocaleDataSource.swift in Sources */,
+				B06C7709286442080020E681 /* MockUpdateProfileUseCase.swift in Sources */,
+				B06C770428642F920020E681 /* MockProfileTransformer.swift in Sources */,
 				B06E6105285FEED4002DA8FF /* GetProfileUseCaseTests.swift in Sources */,
 				B06E6109285FEF89002DA8FF /* UpdateProfileUseCaseTests.swift in Sources */,
+				B06C76FB28642D2B0020E681 /* UpdateProfileRepositoryTests.swift in Sources */,
 				B06E6103285FEE45002DA8FF /* MockUpdateProfileRepository.swift in Sources */,
+				B06C76F928642D1F0020E681 /* GetProfileRepositoryTests.swift in Sources */,
 				B07D696E285F370200203494 /* XCTestCase+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

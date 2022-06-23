@@ -9,6 +9,7 @@ import XCTest
 import Combine
 import Common
 import Core
+import Cleanse
 
 @testable import Search
 class SearchUseCaseTests: XCTestCase {
@@ -23,7 +24,7 @@ class SearchUseCaseTests: XCTestCase {
     let mockResponse: [GameModel] = gameMapper.transformResponseToDomain(response: DummyData.listGameResultResponse)
     repository.responseValue = mockResponse
 
-    let useCase = Interactor(repository: repository)
+    let useCase = SearchUseCase<MockSearchRepository<SearchRemoteDataSource, GameTransformer>>(repository: Provider(value: repository))
 
     // ACT
     let resultPublisher = useCase.execute(request: [:])
@@ -47,7 +48,7 @@ class SearchUseCaseTests: XCTestCase {
     repository.isSuccess = false
     repository.errorValue = NetworkError.invalidResponse
 
-    let useCase = Interactor(repository: repository)
+    let useCase = SearchUseCase<MockSearchRepository<SearchRemoteDataSource, GameTransformer>>(repository: Provider(value: repository))
 
     // ACT
     let resultPublisher = useCase.execute(request: [:])

@@ -6,13 +6,19 @@
 //
 
 import SwiftUI
+import Common
 
 public class DetailViewController: UIViewController {
 
-  private var viewModel: DetailViewModel
+  public typealias GetType = GetFavoriteDetailUseCase<GetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>
+  public typealias InsertType = InsertFavoriteDetailUseCase<InsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>
+  public typealias DeleteType = DeleteFavoriteDetailUseCase<DeleteFavoriteDetailRepository<DetailLocaleDataSource>>
+  public typealias LoadType = LoadDataDetailUseCase<LoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>>
+
+  private var viewModel: DetailViewModel<GetType, InsertType, DeleteType, LoadType>
   public var callback: (() -> Void)?
 
-  public init(viewModel: DetailViewModel) {
+  public init(viewModel: DetailViewModel<GetType, InsertType, DeleteType, LoadType>) {
     self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }

@@ -11,7 +11,8 @@ import Combine
 import Cleanse
 
 public struct GetProfileRepository<Locale: LocaleDataSource, Transformer: Mapper>: Repository
-where Locale.Response == ProfileEntity,
+where Locale.Request == Int,
+      Locale.Response == ProfileEntity,
       Transformer.Response == Any,
       Transformer.Entity == ProfileEntity,
       Transformer.Domain == ProfileModel {

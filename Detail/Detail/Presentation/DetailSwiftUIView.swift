@@ -10,12 +10,16 @@ import SDWebImageSwiftUI
 import Common
 
 struct DetailSwiftUIView: View {
+  typealias GetType = GetFavoriteDetailUseCase<GetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>
+  typealias InsertType = InsertFavoriteDetailUseCase<InsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>
+  typealias DeleteType = DeleteFavoriteDetailUseCase<DeleteFavoriteDetailRepository<DetailLocaleDataSource>>
+  typealias LoadType = LoadDataDetailUseCase<LoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>>
 
   @Environment(\.dismiss) var dismiss
 
-  @ObservedObject var viewModel: DetailViewModel
+  @ObservedObject var viewModel: DetailViewModel<GetType, InsertType, DeleteType, LoadType>
 
-  init(viewModel: DetailViewModel) {
+  init(viewModel: DetailViewModel<GetType, InsertType, DeleteType, LoadType>) {
     self.viewModel = viewModel
   }
 

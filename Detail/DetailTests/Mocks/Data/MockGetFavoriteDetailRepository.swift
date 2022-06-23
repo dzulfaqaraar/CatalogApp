@@ -1,28 +1,26 @@
 //
-//  MockLoadDataDetailRepository.swift
+//  MockGetFavoriteDetailRepository.swift
 //  DetailTests
 //
 //  Created by Dzulfaqar on 21/06/22.
 //
 
-import Foundation
 import Combine
 import Common
 import Core
+import Detail
 
-@testable import Profile
-public class MockLoadDataDetailRepository<Remote: RemoteDataSource, Transformer: Mapper>: Repository
-where Remote.Request == Int,
-      Remote.Response == GameResultResponse?,
-      Transformer.Response == [GameResultResponse],
-      Transformer.Entity == Any,
-      Transformer.Domain == [GameModel] {
+public class MockGetFavoriteDetailRepository<Locale: LocaleDataSource, Transformer: Mapper>: Repository
+where Locale.Response == FavoriteEntity,
+      Transformer.Response == Any,
+      Transformer.Entity == [FavoriteEntity],
+      Transformer.Domain == [FavoriteModel] {
 
   public typealias Request = Int
-  public typealias Response = GameModel?
+  public typealias Response = [FavoriteModel]
 
   var isSuccess = true
-  var responseValue: GameModel?
+  var responseValue: [FavoriteModel]?
   var errorValue: Error?
   var functionWasCalled = false
 
@@ -30,9 +28,9 @@ where Remote.Request == Int,
     return functionWasCalled
   }
 
-  public func execute(request: Int?) -> AnyPublisher<GameModel?, Error> {
+  public func execute(request: Int?) -> AnyPublisher<[FavoriteModel], Error> {
     functionWasCalled = true
-    return Future<GameModel?, Error> { completion in
+    return Future<[FavoriteModel], Error> { completion in
       if self.isSuccess {
         if let responseValue = self.responseValue {
           completion(.success(responseValue))

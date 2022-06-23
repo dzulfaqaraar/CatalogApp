@@ -11,7 +11,8 @@ import Combine
 import Common
 
 public struct ProfileLocaleDataSource: LocaleDataSource {
-  public typealias Request = ProfileModel
+
+  public typealias Request = Int
   public typealias Response = ProfileEntity
 
   public init() {}
@@ -29,7 +30,7 @@ public struct ProfileLocaleDataSource: LocaleDataSource {
     profile.website = "www.dzulfaqar.com"
   }
 
-  public func list(request: ProfileModel?) -> AnyPublisher<[ProfileEntity], Error> {
+  public func list(request: Int?) -> AnyPublisher<[ProfileEntity], Error> {
     fatalError()
   }
 

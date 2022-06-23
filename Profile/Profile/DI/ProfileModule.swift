@@ -32,11 +32,11 @@ struct ProfileRepositoryModule: Module {
 
     binder.bind(GetProfileRepository<ProfileLocaleDataSource, ProfileTransformer>.self)
       .sharedInScope()
-      .to(factory: GetProfileRepository<ProfileLocaleDataSource, ProfileTransformer>.init)
+      .to(factory: GetProfileRepository.init)
 
     binder.bind(UpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>.self)
       .sharedInScope()
-      .to(factory: UpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>.init)
+      .to(factory: UpdateProfileRepository.init)
   }
 }
 
@@ -44,14 +44,14 @@ struct ProfileUseCaseModule: Module {
   static func configure(binder: Binder<Singleton>) {
     binder.include(module: ProfileRepositoryModule.self)
 
-    binder.bind(GetProfileUseCase.self)
+    binder.bind(GetProfileUseCase<GetProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>.self)
       .sharedInScope()
       .to(factory: GetProfileUseCase.init)
     binder.bind(Interactor<Int, ProfileModel, GetProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>.self)
       .sharedInScope()
       .to(factory: Interactor.init)
 
-    binder.bind(UpdateProfileUseCase.self)
+    binder.bind(UpdateProfileUseCase<UpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>.self)
       .sharedInScope()
       .to(factory: UpdateProfileUseCase.init)
     binder.bind(Interactor<ProfileModel, Bool, UpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>.self)
@@ -61,10 +61,13 @@ struct ProfileUseCaseModule: Module {
 }
 
 public struct ProfileModule: Module {
+  typealias GetType = GetProfileUseCase<GetProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>
+  typealias UpdateType = UpdateProfileUseCase<UpdateProfileRepository<ProfileLocaleDataSource, ProfileTransformer>>
+
   public static func configure(binder: Binder<Singleton>) {
     binder.include(module: ProfileUseCaseModule.self)
 
-    binder.bind(ProfileViewModel.self)
+    binder.bind(ProfileViewModel<GetType, UpdateType>.self)
       .sharedInScope()
       .to(factory: ProfileViewModel.init)
   }

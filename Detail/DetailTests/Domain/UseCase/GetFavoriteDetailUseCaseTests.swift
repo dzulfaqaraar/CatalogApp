@@ -9,21 +9,22 @@ import XCTest
 import Combine
 import Common
 import Core
+import Cleanse
 
 @testable import Detail
 class GetFavoriteDetailUseCaseTests: XCTestCase {
 
   private var databaseError: DatabaseError?
 
-  func testGetFavoriteSuccess() throws {
+  func testGetFavoriteDetailUseCaseSuccess() throws {
     // ARRANGE
-    let repository = MockGetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>()
-
     let mapper = FavoriteTransformer()
     let mockResponse: [FavoriteModel] = [mapper.transformEntityToDomain(entity: DummyData.dataFavoriteEntity)]
+
+    let repository = MockGetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>()
     repository.responseValue = mockResponse
 
-    let useCase = Interactor(repository: repository)
+    let useCase = GetFavoriteDetailUseCase<MockGetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>(repository: Provider(value: repository))
 
     // ACT
     let resultPublisher = useCase.execute(request: 1)
@@ -40,13 +41,13 @@ class GetFavoriteDetailUseCaseTests: XCTestCase {
     XCTAssertEqual(mockResponse, response)
   }
 
-  func testGetFavoriteFailure() throws {
+  func testGetFavoriteDetailUseCaseFailure() throws {
     // ARRANGE
     let repository = MockGetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>()
     repository.isSuccess = false
     repository.errorValue = DatabaseError.requestFailed
 
-    let useCase = Interactor(repository: repository)
+    let useCase = GetFavoriteDetailUseCase<MockGetFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>(repository: Provider(value: repository))
 
     // ACT
     let resultPublisher = useCase.execute(request: 1)

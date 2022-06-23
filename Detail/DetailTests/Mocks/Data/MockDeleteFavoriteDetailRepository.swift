@@ -5,12 +5,11 @@
 //  Created by Dzulfaqar on 21/06/22.
 //
 
-import Foundation
 import Combine
 import Common
 import Core
+import Detail
 
-@testable import Profile
 public class MockDeleteFavoriteDetailRepository<Locale: LocaleDataSource>: Repository
 where Locale.Request == Int {
 

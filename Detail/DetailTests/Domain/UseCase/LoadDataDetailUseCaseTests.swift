@@ -9,21 +9,22 @@ import XCTest
 import Combine
 import Common
 import Core
+import Cleanse
 
 @testable import Detail
 class LoadDataDetailUseCaseTests: XCTestCase {
 
   private var networkError: NetworkError?
   
-  func testLoadDetailSuccess() throws {
+  func testLoadDataDetailUseCaseSuccess() throws {
     // ARRANGE
-    let repository = MockLoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>()
-
     let mapper = GameTransformer()
     let mockResponse: GameModel = mapper.transformResponseToDomain(response: DummyData.dataGameResultResponse)
+
+    let repository = MockLoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>()
     repository.responseValue = mockResponse
 
-    let useCase = Interactor(repository: repository)
+    let useCase = LoadDataDetailUseCase<MockLoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>>(repository: Provider(value: repository))
 
     // ACT
     let resultPublisher = useCase.execute(request: 1)
@@ -40,13 +41,13 @@ class LoadDataDetailUseCaseTests: XCTestCase {
     XCTAssertEqual(mockResponse, response)
   }
 
-  func testLoadDetailFailure() throws {
+  func testLoadDataDetailUseCaseFailure() throws {
     // ARRANGE
     let repository = MockLoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>()
     repository.isSuccess = false
     repository.errorValue = NetworkError.invalidResponse
 
-    let useCase = Interactor(repository: repository)
+    let useCase = LoadDataDetailUseCase<MockLoadDataDetailRepository<DetailRemoteDataSource, GameTransformer>>(repository: Provider(value: repository))
 
     // ACT
     let resultPublisher = useCase.execute(request: 1)

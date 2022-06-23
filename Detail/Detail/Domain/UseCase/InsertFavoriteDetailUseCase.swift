@@ -11,13 +11,16 @@ import Common
 import Combine
 import Cleanse
 
-public class InsertFavoriteDetailUseCase: UseCase {
+public class InsertFavoriteDetailUseCase<R: Repository>: UseCase
+where R.Request == FavoriteModel,
+      R.Response == Bool {
+  
   public typealias Request = FavoriteModel
   public typealias Response = Bool
 
-  private let repository: Provider<InsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>
+  private let repository: Provider<R>
 
-  public init(repository: Provider<InsertFavoriteDetailRepository<DetailLocaleDataSource, FavoriteTransformer>>) {
+  public init(repository: Provider<R>) {
     self.repository = repository
   }
 
