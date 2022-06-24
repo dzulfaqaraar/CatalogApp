@@ -29,7 +29,8 @@
 "try_again" = "Coba lagi";
 "info" = "Informasi";
 "close" = "Tutup";
-"failed_load_data" = "Gagal memuat data. Ada yang salah.";
+"failed_load_data" = "Gagal memuat data. Terjadi kesalahan.";
 "something_went_wrong" = "Ada yang salah.";
 "no_internet_connection" = "Tidak ada koneksi internet.";
 "request_failed" = "Permintaan Anda gagal.";
+"failed_to_share" = "Gagal membagikan data. Terjadi kesalahan.";

@@ -8,28 +8,28 @@
 import Foundation
 
 public enum NetworkError: LocalizedError, Equatable {
-  case noConnection
-  case invalidResponse
-  case requestError(message: String? = nil)
+    case noConnection
+    case invalidResponse
+    case requestError(message: String? = nil)
 
-  public var errorDescription: String? {
-    switch self {
-    case .noConnection:
-      return "no_internet_connection".localized()
-    case .requestError(let message):
-      return message
-    default:
-      return "something_went_wrong".localized()
+    public var errorDescription: String? {
+        switch self {
+        case .noConnection:
+            return "no_internet_connection".localized()
+        case let .requestError(message):
+            return message
+        default:
+            return "something_went_wrong".localized()
+        }
     }
-  }
 }
 
 public enum DatabaseError: LocalizedError {
-  case requestFailed
+    case requestFailed
 
-  public var errorDescription: String? {
-    switch self {
-    case .requestFailed: return "request_failed".localized()
+    public var errorDescription: String? {
+        switch self {
+        case .requestFailed: return "request_failed".localized()
+        }
     }
-  }
 }

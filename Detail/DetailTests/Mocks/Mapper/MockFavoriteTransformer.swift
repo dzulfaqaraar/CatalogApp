@@ -9,35 +9,35 @@ import Common
 import Core
 
 class MockFavoriteTransformer: Mapper {
-  typealias Response = Any
-  typealias Entity = [FavoriteEntity]
-  typealias Domain = [FavoriteModel]
+    typealias Response = Any
+    typealias Entity = [FavoriteEntity]
+    typealias Domain = [FavoriteModel]
 
-  init() {}
+    init() {}
 
-  private var functionWasCalled = false
-  var responseEntity: [FavoriteEntity] = []
-  var responseDomain: [FavoriteModel] = []
+    private var functionWasCalled = false
+    var responseEntity: [FavoriteEntity] = []
+    var responseDomain: [FavoriteModel] = []
 
-  func verify() -> Bool {
-    return functionWasCalled
-  }
+    func verify() -> Bool {
+        return functionWasCalled
+    }
 
-  func transformResponseToDomain(response: Any) -> [FavoriteModel] {
-    fatalError()
-  }
+    func transformResponseToDomain(response _: Any) -> [FavoriteModel] {
+        fatalError()
+    }
 
-  func transformResponseToEntity(response: Any) -> [FavoriteEntity] {
-    fatalError()
-  }
+    func transformResponseToEntity(response _: Any) -> [FavoriteEntity] {
+        fatalError()
+    }
 
-  func transformEntityToDomain(entity: [FavoriteEntity]) -> [FavoriteModel] {
-    functionWasCalled = true
-    return responseDomain
-  }
+    func transformEntityToDomain(entity _: [FavoriteEntity]) -> [FavoriteModel] {
+        functionWasCalled = true
+        return responseDomain
+    }
 
-  func transformDomainToEntity(domain: [FavoriteModel]?) -> [FavoriteEntity] {
-    functionWasCalled = true
-    return responseEntity
-  }
+    func transformDomainToEntity(domain _: [FavoriteModel]?) -> [FavoriteEntity] {
+        functionWasCalled = true
+        return responseEntity
+    }
 }

@@ -5,116 +5,115 @@
 //  Created by Dzulfaqar on 22/06/22.
 //
 
-import XCTest
+import Cleanse
 import Combine
 import Common
 import Core
-import Cleanse
+import XCTest
 
 @testable import Detail
 class LoadDataDetailRepositoryTests: XCTestCase {
+    private var networkError: NetworkError?
 
-  private var networkError: NetworkError?
-
-  private func transformResponseToDomain(response: GameResultResponse) -> GameModel {
-    GameModel(
-      id: response.id,
-      rating: response.rating,
-      name: response.name,
-      image: response.backgroundImage,
-      released: response.released,
-      descriptionRaw: response.descriptionRaw,
-      developersName: response.developers?.map({ $0.name ?? "" }).joined(separator: ", "),
-      publishersName: response.publishers?.map({ $0.name ?? "" }).joined(separator: ", "),
-      genres: response.genres?.map({ $0.name ?? "" }).joined(separator: ", ")
-    )
-  }
-
-  func testLoadDataDetailRepositorySuccess() throws {
-    // ARRANGE
-    let mockResponse = DummyData.dataGameResultResponse
-
-    let remote = MockDetailRemoteDataSource()
-    remote.responseValue = mockResponse
-
-    let mapper = MockGameTransformer()
-    mapper.responseDomain = [
-      transformResponseToDomain(response: mockResponse)
-    ]
-
-    let repository = LoadDataDetailRepository<MockDetailRemoteDataSource, MockGameTransformer>(remote: Provider(value: remote), mapper: Provider(value: mapper))
-
-    // ACT
-    let resultPublisher = repository.execute(request: 1)
-    var response: GameModel?
-    do {
-      response = try awaitPublisher(resultPublisher).get()
-    } catch {
-      networkError = error as? NetworkError
+    private func transformResponseToDomain(response: GameResultResponse) -> GameModel {
+        GameModel(
+            id: response.id,
+            rating: response.rating,
+            name: response.name,
+            image: response.backgroundImage,
+            released: response.released,
+            descriptionRaw: response.descriptionRaw,
+            developersName: response.developers?.map { $0.name ?? "" }.joined(separator: ", "),
+            publishersName: response.publishers?.map { $0.name ?? "" }.joined(separator: ", "),
+            genres: response.genres?.map { $0.name ?? "" }.joined(separator: ", ")
+        )
     }
 
-    // ASSERT
-    XCTAssertNil(networkError)
-    XCTAssertEqual(mockResponse.id, response?.id)
-    XCTAssertEqual(mockResponse.rating, response?.rating)
-    XCTAssertEqual(mockResponse.name, response?.name)
-    XCTAssertEqual(mockResponse.backgroundImage, response?.image)
-    XCTAssertEqual(mockResponse.released, response?.released)
-    XCTAssertEqual(mockResponse.descriptionRaw, response?.descriptionRaw)
+    func testLoadDataDetailRepositorySuccess() throws {
+        // ARRANGE
+        let mockResponse = DummyData.dataGameResultResponse
 
-    let mockDevelopers = mockResponse.developers?.map({ $0.name ?? "" }).joined(separator: ", ")
-    XCTAssertEqual(mockDevelopers, response?.developersName)
+        let remote = MockDetailRemoteDataSource()
+        remote.responseValue = mockResponse
 
-    let mockPublishers = mockResponse.publishers?.map({ $0.name ?? "" }).joined(separator: ", ")
-    XCTAssertEqual(mockPublishers, response?.publishersName)
+        let mapper = MockGameTransformer()
+        mapper.responseDomain = [
+            transformResponseToDomain(response: mockResponse)
+        ]
 
-    let mockGenres = mockResponse.genres?.map({ $0.name ?? "" }).joined(separator: ", ")
-    XCTAssertEqual(mockGenres, response?.genres)
-  }
+        let repository = LoadDataDetailRepository<MockDetailRemoteDataSource, MockGameTransformer>(remote: Provider(value: remote), mapper: Provider(value: mapper))
 
-  func testLoadDataDetailRepositoryEmpty() throws {
-    // ARRANGE
-    let remote = MockDetailRemoteDataSource()
-    remote.responseValue = nil
+        // ACT
+        let resultPublisher = repository.execute(request: 1)
+        var response: GameModel?
+        do {
+            response = try awaitPublisher(resultPublisher).get()
+        } catch {
+            networkError = error as? NetworkError
+        }
 
-    let mapper = MockGameTransformer()
+        // ASSERT
+        XCTAssertNil(networkError)
+        XCTAssertEqual(mockResponse.id, response?.id)
+        XCTAssertEqual(mockResponse.rating, response?.rating)
+        XCTAssertEqual(mockResponse.name, response?.name)
+        XCTAssertEqual(mockResponse.backgroundImage, response?.image)
+        XCTAssertEqual(mockResponse.released, response?.released)
+        XCTAssertEqual(mockResponse.descriptionRaw, response?.descriptionRaw)
 
-    let repository = LoadDataDetailRepository<MockDetailRemoteDataSource, MockGameTransformer>(remote: Provider(value: remote), mapper: Provider(value: mapper))
+        let mockDevelopers = mockResponse.developers?.map { $0.name ?? "" }.joined(separator: ", ")
+        XCTAssertEqual(mockDevelopers, response?.developersName)
 
-    // ACT
-    let resultPublisher = repository.execute(request: 1)
-    var response: GameModel?
-    do {
-      response = try awaitPublisher(resultPublisher).get()
-    } catch {
-      networkError = error as? NetworkError
+        let mockPublishers = mockResponse.publishers?.map { $0.name ?? "" }.joined(separator: ", ")
+        XCTAssertEqual(mockPublishers, response?.publishersName)
+
+        let mockGenres = mockResponse.genres?.map { $0.name ?? "" }.joined(separator: ", ")
+        XCTAssertEqual(mockGenres, response?.genres)
     }
 
-    // ASSERT
-    XCTAssertNil(networkError)
-    XCTAssertNil(response)
-  }
+    func testLoadDataDetailRepositoryEmpty() throws {
+        // ARRANGE
+        let remote = MockDetailRemoteDataSource()
+        remote.responseValue = nil
 
-  func testLoadDataDetailRepositoryFailure() throws {
-    // ARRANGE
-    let remote = MockDetailRemoteDataSource()
-    remote.isSuccess = false
-    remote.errorValue = NetworkError.invalidResponse
+        let mapper = MockGameTransformer()
 
-    let mapper = MockGameTransformer()
-    
-    let repository = LoadDataDetailRepository<MockDetailRemoteDataSource, MockGameTransformer>(remote: Provider(value: remote), mapper: Provider(value: mapper))
+        let repository = LoadDataDetailRepository<MockDetailRemoteDataSource, MockGameTransformer>(remote: Provider(value: remote), mapper: Provider(value: mapper))
 
-    // ACT
-    let resultPublisher = repository.execute(request: 1)
-    do {
-      _ = try awaitPublisher(resultPublisher).get()
-    } catch {
-      networkError = error as? NetworkError
+        // ACT
+        let resultPublisher = repository.execute(request: 1)
+        var response: GameModel?
+        do {
+            response = try awaitPublisher(resultPublisher).get()
+        } catch {
+            networkError = error as? NetworkError
+        }
+
+        // ASSERT
+        XCTAssertNil(networkError)
+        XCTAssertNil(response)
     }
 
-    // ASSERT
-    XCTAssertNotNil(networkError)
-    XCTAssertEqual(NetworkError.invalidResponse, networkError)
-  }
+    func testLoadDataDetailRepositoryFailure() throws {
+        // ARRANGE
+        let remote = MockDetailRemoteDataSource()
+        remote.isSuccess = false
+        remote.errorValue = NetworkError.invalidResponse
+
+        let mapper = MockGameTransformer()
+
+        let repository = LoadDataDetailRepository<MockDetailRemoteDataSource, MockGameTransformer>(remote: Provider(value: remote), mapper: Provider(value: mapper))
+
+        // ACT
+        let resultPublisher = repository.execute(request: 1)
+        do {
+            _ = try awaitPublisher(resultPublisher).get()
+        } catch {
+            networkError = error as? NetworkError
+        }
+
+        // ASSERT
+        XCTAssertNotNil(networkError)
+        XCTAssertEqual(NetworkError.invalidResponse, networkError)
+    }
 }

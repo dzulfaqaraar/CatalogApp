@@ -11,33 +11,32 @@ import Core
 import Detail
 
 public class MockInsertFavoriteDetailUseCase<R: Repository>: UseCase
-where R.Request == FavoriteModel,
-      R.Response == Bool {
+    where R.Request == FavoriteModel,
+    R.Response == Bool {
+    public typealias Request = FavoriteModel
+    public typealias Response = Bool
 
-  public typealias Request = FavoriteModel
-  public typealias Response = Bool
+    var isSuccess = true
+    var responseValue: Bool?
+    var errorValue: Error?
+    var functionWasCalled = false
 
-  var isSuccess = true
-  var responseValue: Bool?
-  var errorValue: Error?
-  var functionWasCalled = false
+    func verify() -> Bool {
+        return functionWasCalled
+    }
 
-  func verify() -> Bool {
-    return functionWasCalled
-  }
-
-  public func execute(request: FavoriteModel?) -> AnyPublisher<Bool, Error> {
-    functionWasCalled = true
-    return Future<Bool, Error> { completion in
-      if self.isSuccess {
-        if let responseValue = self.responseValue {
-          completion(.success(responseValue))
-        }
-      } else {
-        if let errorValue = self.errorValue {
-          completion(.failure(errorValue))
-        }
-      }
-    }.eraseToAnyPublisher()
-  }
+    public func execute(request _: FavoriteModel?) -> AnyPublisher<Bool, Error> {
+        functionWasCalled = true
+        return Future<Bool, Error> { completion in
+            if self.isSuccess {
+                if let responseValue = self.responseValue {
+                    completion(.success(responseValue))
+                }
+            } else {
+                if let errorValue = self.errorValue {
+                    completion(.failure(errorValue))
+                }
+            }
+        }.eraseToAnyPublisher()
+    }
 }

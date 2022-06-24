@@ -33,3 +33,4 @@
 "something_went_wrong" = "Something went wrong.";
 "no_internet_connection" = "No internet connection.";
 "request_failed" = "Your request failed.";
+"failed_to_share" = "Failed to share. Something went wrong.";

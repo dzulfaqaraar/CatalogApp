@@ -5,31 +5,30 @@
 //  Created by Dzulfaqar on 20/06/22.
 //
 
-import Foundation
-import Core
-import Combine
 import Cleanse
+import Combine
 import Common
+import Core
+import Foundation
 
 public struct DeleteFavoriteDetailRepository<Locale: LocaleDataSource>: Repository
-where Locale.Request == Int {
+    where Locale.Request == Int {
+    public typealias Request = Int
+    public typealias Response = Bool
 
-  public typealias Request = Int
-  public typealias Response = Bool
+    private let locale: Provider<Locale>
 
-  private let locale: Provider<Locale>
-
-  public init(locale: Provider<Locale>) {
-    self.locale = locale
-  }
-
-  public func execute(request: Int?) -> AnyPublisher<Bool, Error> {
-    if let request = request {
-      return locale.get().delete(id: request)
+    public init(locale: Provider<Locale>) {
+        self.locale = locale
     }
 
-    return Future<Bool, Error> { completion in
-      completion(.failure(DatabaseError.requestFailed))
-    }.eraseToAnyPublisher()
-  }
+    public func execute(request: Int?) -> AnyPublisher<Bool, Error> {
+        if let request = request {
+            return locale.get().delete(id: request)
+        }
+
+        return Future<Bool, Error> { completion in
+            completion(.failure(DatabaseError.requestFailed))
+        }.eraseToAnyPublisher()
+    }
 }

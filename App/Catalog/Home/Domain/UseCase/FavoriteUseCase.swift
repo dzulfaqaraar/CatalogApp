@@ -5,10 +5,10 @@
 //  Created by Dzulfaqar on 19/06/22.
 //
 
-import Foundation
 import Combine
 import Common
+import Foundation
 
 protocol FavoriteUseCase {
-  func getAllFavorite() -> AnyPublisher<[FavoriteModel], Error>
+    func getAllFavorite() -> AnyPublisher<[FavoriteModel], Error>
 }

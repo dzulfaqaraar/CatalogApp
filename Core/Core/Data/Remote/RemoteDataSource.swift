@@ -5,12 +5,12 @@
 //  Created by Dzulfaqar on 18/06/22.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 public protocol RemoteDataSource {
-  associatedtype Request
-  associatedtype Response
+    associatedtype Request
+    associatedtype Response
 
-  func execute(request: Request?) -> AnyPublisher<Response, Error>
+    func execute(request: Request?) -> AnyPublisher<Response, Error>
 }

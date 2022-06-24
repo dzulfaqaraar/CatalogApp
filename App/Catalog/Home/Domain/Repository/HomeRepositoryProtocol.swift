@@ -5,17 +5,16 @@
 //  Created by Dzulfaqar on 19/06/22.
 //
 
-import Foundation
 import Combine
 import Common
+import Foundation
 
 protocol HomeRepositoryProtocol {
+    // MARK: - LocaleDataSource
 
-  // MARK: - LocaleDataSource
+    func getAllFavorite() -> AnyPublisher<[FavoriteModel], Error>
 
-  func getAllFavorite() -> AnyPublisher<[FavoriteModel], Error>
+    // MARK: - RemoteDataSource
 
-  // MARK: - RemoteDataSource
-
-  func loadAllGames(param: [String: Any?], withGenres: Bool) -> AnyPublisher<([GenreModel], [GameModel]), Error>
+    func loadAllGames(param: [String: Any?], withGenres: Bool) -> AnyPublisher<([GenreModel], [GameModel]), Error>
 }

@@ -10,33 +10,33 @@ import Core
 import Profile
 
 class MockProfileTransformer: Mapper {
-  public typealias Response = Any
-  public typealias Entity = ProfileEntity
-  public typealias Domain = ProfileModel
+    public typealias Response = Any
+    public typealias Entity = ProfileEntity
+    public typealias Domain = ProfileModel
 
-  private var functionWasCalled = false
-  var responseEntity: ProfileEntity?
-  var responseDomain: ProfileModel?
+    private var functionWasCalled = false
+    var responseEntity: ProfileEntity?
+    var responseDomain: ProfileModel?
 
-  func verify() -> Bool {
-    return functionWasCalled
-  }
+    func verify() -> Bool {
+        return functionWasCalled
+    }
 
-  func transformResponseToDomain(response: Any) -> ProfileModel {
-    fatalError()
-  }
+    func transformResponseToDomain(response _: Any) -> ProfileModel {
+        fatalError()
+    }
 
-  func transformResponseToEntity(response: Any) -> ProfileEntity {
-    fatalError()
-  }
+    func transformResponseToEntity(response _: Any) -> ProfileEntity {
+        fatalError()
+    }
 
-  func transformEntityToDomain(entity: ProfileEntity) -> ProfileModel {
-    functionWasCalled = true
-    return responseDomain!
-  }
+    func transformEntityToDomain(entity _: ProfileEntity) -> ProfileModel {
+        functionWasCalled = true
+        return responseDomain!
+    }
 
-  func transformDomainToEntity(domain: ProfileModel?) -> ProfileEntity {
-    functionWasCalled = true
-    return responseEntity!
-  }
+    func transformDomainToEntity(domain _: ProfileModel?) -> ProfileEntity {
+        functionWasCalled = true
+        return responseEntity!
+    }
 }

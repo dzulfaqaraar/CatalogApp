@@ -5,84 +5,83 @@
 //  Created by Dzulfaqar on 15/06/22.
 //
 
-import XCTest
 import Combine
 import Common
+import XCTest
 
 @testable import Catalog
 class FavoriteUseCaseTests: XCTestCase {
+    private var databaseError: DatabaseError?
 
-  private var databaseError: DatabaseError?
+    func testGetAllFavoriteSuccess() throws {
+        // ARRANGE
+        let repository = MockHomeRepository<[FavoriteModel]>()
 
-  func testGetAllFavoriteSuccess() throws {
-    // ARRANGE
-    let repository = MockHomeRepository<[FavoriteModel]>()
+        let mapper = FavoriteTransformer()
+        let mockResponse: [FavoriteModel] = mapper.transformEntityToDomain(entity: DummyData.listFavoriteEntity)
+        repository.responseValue = mockResponse
 
-    let mapper = FavoriteTransformer()
-    let mockResponse: [FavoriteModel] = mapper.transformEntityToDomain(entity: DummyData.listFavoriteEntity)
-    repository.responseValue = mockResponse
+        let useCase = FavoriteInteractorMock(repository: repository)
 
-    let useCase = FavoriteInteractorMock(repository: repository)
+        // ACT
+        let resultPublisher = useCase.getAllFavorite()
 
-    // ACT
-    let resultPublisher = useCase.getAllFavorite()
+        // ASSERT
+        XCTAssert(useCase.verify())
 
-    // ASSERT
-    XCTAssert(useCase.verify())
+        // ACT
+        var response: [FavoriteModel]?
+        do {
+            response = try awaitPublisher(resultPublisher).get()
+        } catch {
+            databaseError = error as? DatabaseError
+        }
 
-    // ACT
-    var response: [FavoriteModel]?
-    do {
-      response = try awaitPublisher(resultPublisher).get()
-    } catch {
-      databaseError = error as? DatabaseError
+        // ASSERT
+        XCTAssertNil(databaseError)
+        XCTAssertEqual(mockResponse.count, response?.count)
+        XCTAssertEqual(mockResponse, response)
     }
 
-    // ASSERT
-    XCTAssertNil(databaseError)
-    XCTAssertEqual(mockResponse.count, response?.count)
-    XCTAssertEqual(mockResponse, response)
-  }
+    func testGetAllFavoriteFailure() throws {
+        // ARRANGE
+        let repository = MockHomeRepository<[FavoriteModel]>()
+        repository.isSuccess = false
+        repository.errorValue = DatabaseError.requestFailed
 
-  func testGetAllFavoriteFailure() throws {
-    // ARRANGE
-    let repository = MockHomeRepository<[FavoriteModel]>()
-    repository.isSuccess = false
-    repository.errorValue = DatabaseError.requestFailed
+        let useCase = FavoriteInteractorMock(repository: repository)
 
-    let useCase = FavoriteInteractorMock(repository: repository)
+        // ACT
+        let resultPublisher = useCase.getAllFavorite()
+        do {
+            _ = try awaitPublisher(resultPublisher).get()
+        } catch {
+            databaseError = error as? DatabaseError
+        }
 
-    // ACT
-    let resultPublisher = useCase.getAllFavorite()
-    do {
-      _ = try awaitPublisher(resultPublisher).get()
-    } catch {
-      databaseError = error as? DatabaseError
+        // ASSERT
+        XCTAssertNotNil(databaseError)
+        XCTAssertEqual(DatabaseError.requestFailed, databaseError)
     }
-
-    // ASSERT
-    XCTAssertNotNil(databaseError)
-    XCTAssertEqual(DatabaseError.requestFailed, databaseError)
-  }
 }
 
 extension FavoriteUseCaseTests {
-  class FavoriteInteractorMock: FavoriteUseCase {
-    var functionWasCalled = false
+    class FavoriteInteractorMock: FavoriteUseCase {
+        var functionWasCalled = false
 
-    var repository: HomeRepositoryProtocol
+        var repository: HomeRepositoryProtocol
 
-    init(repository: HomeRepositoryProtocol) {
-      self.repository = repository
+        init(repository: HomeRepositoryProtocol) {
+            self.repository = repository
+        }
+
+        func verify() -> Bool {
+            return functionWasCalled
+        }
+
+        func getAllFavorite() -> AnyPublisher<[FavoriteModel], Error> {
+            functionWasCalled = true
+            return repository.getAllFavorite()
+        }
     }
-
-    func verify() -> Bool {
-      return functionWasCalled
-    }
-
-    func getAllFavorite() -> AnyPublisher<[FavoriteModel], Error> {
-      functionWasCalled = true
-      return repository.getAllFavorite()
-    }
-  }
 }
